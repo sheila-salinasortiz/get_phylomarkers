@@ -1,0 +1,38 @@
+# REQUIREMENTS FILE FOR THE PYTHON SCRIPTS
+
+# rootingTree.py
+Phylo
+argparse
+
+# DonwloadTaxonomy.py
+re
+json
+subprocess
+csv
+argparse
+os
+
+# tValidate.py
+defaultdict
+matplotlib.pyplot
+matplotlib.patches
+Line2D
+pandas
+numpy
+ListedColormap
+
+# tSuspicious.py
+sys
+datetime
+
+# plot_cutTree.py
+matplotlib.colors
+
+# evaluate_h.py
+Counter
+
+# networkCorrelation.py
+PdfPages
+pearsonr
+networkx
+igraph
