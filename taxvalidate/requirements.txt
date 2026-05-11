@@ -1,18 +1,17 @@
 # REQUIREMENTS FILE FOR THE PYTHON SCRIPTS
 
-# rootingTree.py
+# 1_root_scaleTree.py
 Phylo
 argparse
-
-# DonwloadTaxonomy.py
-re
-json
 subprocess
-csv
-argparse
 os
 
-# tValidate.py
+# 2_donwloadTaxonomy.py
+re
+json
+csv
+
+# 3_tValidate.py
 defaultdict
 matplotlib.pyplot
 matplotlib.patches
@@ -21,14 +20,14 @@ pandas
 numpy
 ListedColormap
 
-# tSuspicious.py
+# 4_tSuspicious.py
 sys
 datetime
 
-# plot_cutTree.py
+# 5_plot_cutTree.py
 matplotlib.colors
 
-# evaluate_h.py
+# 6_evaluate_h.py
 Counter
 
 # networkCorrelation.py
