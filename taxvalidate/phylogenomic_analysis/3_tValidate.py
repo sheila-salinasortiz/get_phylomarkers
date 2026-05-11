@@ -398,7 +398,8 @@ def main():
     parser.add_argument("--fragment_limit", type=str, default=None,
                         help="Each genus is one cluster.")
 
-    parser.add_argument("--aai", type=str, help="AAI matrix (.tab) for validation")
+    parser.add_argument("--aai", type=str, required=True, 
+                        help="AAI matrix (.tab) for validation")
 
     args = parser.parse_args()
 
@@ -619,10 +620,9 @@ def main():
     plt.close()
 
     # -----------------------------------------------------
-    # Run AAI validation if provided
+    # Run AAI validation
     # -----------------------------------------------------
-    if args.aai:
-        validate_t_with_AAI(best_output, args.aai, args.outdir)
+    validate_t_with_AAI(best_output, args.aai, args.outdir)
 
     print(f"\nAnalysis completed. Results saved in: {args.outdir}")
 
