@@ -21,24 +21,24 @@ python 1_root_scaleTree.py resultsOutgroupDataset/concat_abayes_run1_nonRecomb_K
 # 2. Download the taxonomy directly from NCBI: 2_downloadTaxonomy.py
 python 2_downloadTaxonomy.py --input tree_labels.list
 
-# 3. Execute TreeCluster with 3_tValidate.py
+# 3. Execute TreeCluster with 3_treeClusters.py
 #	3.1 Without genera limits
-python 3_tValidate.py --tree scaledTree_out4.nwk --taxonomy Taxonomy.csv --labels resultsOutgroupDataset/tree_labels.list --aai resultsOutgroupDataset/CorynebacteriumdiphtheriaeNCTC11397_f0_alltaxa_algCOG_e1_E1e-05_C75_Avg_identity.tab --outdir tVal_out4
+python 3_treeClusters.py --tree scaledTree_out4.nwk --taxonomy Taxonomy.csv --labels resultsOutgroupDataset/tree_labels.list --aai resultsOutgroupDataset/CorynebacteriumdiphtheriaeNCTC11397_f0_alltaxa_algCOG_e1_E1e-05_C75_Avg_identity.tab --outdir tVal_out4
 
 #	3.2 With genera limits
-python 3_tValidate.py --tree scaledTree_out4.nwk --taxonomy Taxonomy.csv --labels resultsOutgroupDataset/tree_labels.list --fragment_limit Gordonia,Williamsia --fusion_limit Gordonia,Nocardia,Tomitella --aai resultsOutgroupDataset/CorynebacteriumdiphtheriaeNCTC11397_f0_alltaxa_algCOG_e1_E1e-05_C75_Avg_identity.tab --outdir tVal_out4_limits
+python 3_treeClusters.py --tree scaledTree_out4.nwk --taxonomy Taxonomy.csv --labels resultsOutgroupDataset/tree_labels.list --fragment_limit Gordonia,Williamsia --fusion_limit Gordonia,Nocardia,Tomitella --aai resultsOutgroupDataset/CorynebacteriumdiphtheriaeNCTC11397_f0_alltaxa_algCOG_e1_E1e-05_C75_Avg_identity.tab --outdir tVal_out4_limits
 
 # 4. If you think there is a specie/group not correctly agrupated: 4_tSuspicious.py
 python 4_tSuspicious.py --tree scaledTree_out4.nwk --group 13 --outdir 13Susp 
 
-# 5. To visualize this new clusters generated: 5_plot_cutTree.py
-#	With the 3_tValidate.py clusters 
+# 5. To visualize this new clusters generated: 5_plot_treeClusters.py
+#	With the 3_treeClusters.py clusters 
 #		Without genera limits
-python 5_plot_cutTree.py --tree scaledTree_out4.nwk --clusters tVal_out4/best_threshold_clusters.tsv 
+python 5_plot_treeClusters.py --tree scaledTree_out4.nwk --clusters tVal_out4/best_threshold_clusters.tsv 
 #		With genera limits
-python 5_plot_cutTree.py --tree scaledTree_out4.nwk --clusters tVal_out4_limits/best_threshold_clusters.tsv
+python 5_plot_treeClusters.py --tree scaledTree_out4.nwk --clusters tVal_out4_limits/best_threshold_clusters.tsv
 #	With the 4_tSuspicious.py clusters 
-python 5_plot_cutTree.py --tree scaledTree_out4.nwk --clusters 13Susp/final_clusters.tsv
+python 5_plot_treeClusters.py --tree scaledTree_out4.nwk --clusters 13Susp/final_clusters.tsv
 
 # 6. Evaluate the phylogeny cut done with 6_evaluate_h.py
 #	6.1. Without genera limits
