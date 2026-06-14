@@ -4,7 +4,7 @@
 #	0.1 Download the input sequence (see the manual of get_homologues for it) and put them in a directory (OutgroupDataset
 #	0.2 Run GET_HOMOLOGUES two times
 #		0.2.1 For the pangenome (-t0)
-get_homologues/get_homologues.pl -d reducedDataset -m cluster -G -C 75 -E 1e-05 -t0 -P -A
+get_homologues/get_homologues.pl -d OutgroupDataset -m cluster -G -C 75 -E 1e-05 -t0 -P -A
 #		0.2.2 For the core genoma, this results is the one for GET_PHYLOMARKERS
 get_homologues/get_homologues.pl -d OutgroupDataset/ -m cluster -G -C 75 -E 1e-05 -e -P -A
 #	0.3 Run GET_PHYLOMARKERS from sheila-salinasortiz GitHub repository (if not the ML matrix will not be reached)
@@ -40,32 +40,32 @@ python 5_plot_treeClusters.py --tree scaledTree_out4.nwk --clusters tVal_out4_li
 #	With the 4_tSuspicious.py clusters 
 python 5_plot_treeClusters.py --tree scaledTree_out4.nwk --clusters 13Susp/final_clusters.tsv
 
-# 6. Evaluate the phylogeny cut done with 6_evaluate_h.py
+# 6. Evaluate the phylogeny cut done with 6_support_treeClusters.py
 #	6.1. Without genera limits
 #		a. AF matrix
-python 6_evaluate_h.py --tree scaledTree_out4.nwk --matrix resultsOutgroupDataset/CorynebacteriumdiphtheriaeNCTC11397_f0_0taxa_algCOG_e0_E1e-05_C75_AF.tab --matrix_type AF --taxonomy Taxonomy.csv --labels resultsOutgroupDataset/tree_labels.list --outdir evaluate4out_AF
+python 6_support_treeClusters.py --tree scaledTree_out4.nwk --matrix resultsOutgroupDataset/CorynebacteriumdiphtheriaeNCTC11397_f0_0taxa_algCOG_e0_E1e-05_C75_AF.tab --matrix_type AF --taxonomy Taxonomy.csv --labels resultsOutgroupDataset/tree_labels.list --outdir evaluate4out_AF
 #		b. AAI matrix
-python 6_evaluate_h.py --tree scaledTree_out4.nwk --matrix resultsOutgroupDataset/CorynebacteriumdiphtheriaeNCTC11397_f0_alltaxa_algCOG_e1_E1e-05_C75_Avg_identity.tab --matrix_type AAI --taxonomy Taxonomy.csv --labels resultsOutgroupDataset/tree_labels.list --outdir evaluate4out_AAI
+python 6_support_treeClusters.py --tree scaledTree_out4.nwk --matrix resultsOutgroupDataset/CorynebacteriumdiphtheriaeNCTC11397_f0_alltaxa_algCOG_e1_E1e-05_C75_Avg_identity.tab --matrix_type AAI --taxonomy Taxonomy.csv --labels resultsOutgroupDataset/tree_labels.list --outdir evaluate4out_AAI
 #		c. ML matrix
-python 6_evaluate_h.py --tree scaledTree_out4.nwk --matrix resultsOutgroupDataset/concat_abayes_run1_nonRecomb_KdeFilt_6concat_protAlns_iqtree_LG+F+R5.mldist --matrix_type ML --taxonomy Taxonomy.csv --labels resultsOutgroupDataset/tree_labels.list --outdir evaluate4out_ML
+python 6_support_treeClusters.py --tree scaledTree_out4.nwk --matrix resultsOutgroupDataset/concat_abayes_run1_nonRecomb_KdeFilt_6concat_protAlns_iqtree_LG+F+R5.mldist --matrix_type ML --taxonomy Taxonomy.csv --labels resultsOutgroupDataset/tree_labels.list --outdir evaluate4out_ML
 #		d. POCP matrix
-python 6_evaluate_h.py --tree scaledTree_out4.nwk --matrix resultsOutgroupDataset/CorynebacteriumdiphtheriaeNCTC11397_f0_0taxa_algCOG_e0_E1e-05_C75_POCP.tab --matrix_type POCP --taxonomy Taxonomy.csv --labels resultsOutgroupDataset/tree_labels.list --outdir evaluate4out_POCP
+python 6_support_treeClusters.py --tree scaledTree_out4.nwk --matrix resultsOutgroupDataset/CorynebacteriumdiphtheriaeNCTC11397_f0_0taxa_algCOG_e0_E1e-05_C75_POCP.tab --matrix_type POCP --taxonomy Taxonomy.csv --labels resultsOutgroupDataset/tree_labels.list --outdir evaluate4out_POCP
 
 #	6.2. With genera limits
 #		a. AF matrix
-python 6_evaluate_h.py --tree scaledTree_out4.nwk --matrix resultsOutgroupDataset/CorynebacteriumdiphtheriaeNCTC11397_f0_0taxa_algCOG_e0_E1e-05_C75_AF.tab --matrix_type AF --taxonomy Taxonomy.csv --labels resultsOutgroupDataset/tree_labels.list --fragment_limit Gordonia,Williamsia --fusion_limit Gordonia,Nocardia,Tomitella --outdir evaluate4out_limits_AF
+python 6_support_treeClusters.py --tree scaledTree_out4.nwk --matrix resultsOutgroupDataset/CorynebacteriumdiphtheriaeNCTC11397_f0_0taxa_algCOG_e0_E1e-05_C75_AF.tab --matrix_type AF --taxonomy Taxonomy.csv --labels resultsOutgroupDataset/tree_labels.list --fragment_limit Gordonia,Williamsia --fusion_limit Gordonia,Nocardia,Tomitella --outdir evaluate4out_limits_AF
 #		b. AAI matrix
-python 6_evaluate_h.py --tree scaledTree_out4.nwk --matrix resultsOutgroupDataset/CorynebacteriumdiphtheriaeNCTC11397_f0_alltaxa_algCOG_e1_E1e-05_C75_Avg_identity.tab --matrix_type AAI --taxonomy Taxonomy.csv --labels resultsOutgroupDataset/tree_labels.list --fragment_limit Gordonia,Williamsia --fusion_limit Gordonia,Nocardia,Tomitella --outdir evaluate4out_limits_AAI
+python 6_support_treeClusters.py --tree scaledTree_out4.nwk --matrix resultsOutgroupDataset/CorynebacteriumdiphtheriaeNCTC11397_f0_alltaxa_algCOG_e1_E1e-05_C75_Avg_identity.tab --matrix_type AAI --taxonomy Taxonomy.csv --labels resultsOutgroupDataset/tree_labels.list --fragment_limit Gordonia,Williamsia --fusion_limit Gordonia,Nocardia,Tomitella --outdir evaluate4out_limits_AAI
 #		c. ML matrix
-python 6_evaluate_h.py --tree scaledTree_out4.nwk --matrix resultsOutgroupDataset/concat_abayes_run1_nonRecomb_KdeFilt_6concat_protAlns_iqtree_LG+F+R5.mldist --matrix_type ML --taxonomy Taxonomy.csv --labels resultsOutgroupDataset/tree_labels.list --fragment_limit Gordonia,Williamsia --fusion_limit Gordonia,Nocardia,Tomitella --outdir evaluate4out_limits_ML
+python 6_support_treeClusters.py --tree scaledTree_out4.nwk --matrix resultsOutgroupDataset/concat_abayes_run1_nonRecomb_KdeFilt_6concat_protAlns_iqtree_LG+F+R5.mldist --matrix_type ML --taxonomy Taxonomy.csv --labels resultsOutgroupDataset/tree_labels.list --fragment_limit Gordonia,Williamsia --fusion_limit Gordonia,Nocardia,Tomitella --outdir evaluate4out_limits_ML
 #		d. POCP matrix
-python 6_evaluate_h.py --tree scaledTree_out4.nwk --matrix resultsOutgroupDataset/CorynebacteriumdiphtheriaeNCTC11397_f0_0taxa_algCOG_e0_E1e-05_C75_POCP.tab --matrix_type POCP --taxonomy Taxonomy.csv --labels resultsOutgroupDataset/tree_labels.list --fragment_limit Gordonia,Williamsia --fusion_limit Gordonia,Nocardia,Tomitella --outdir evaluate4out_limits_POCP
+python 6_support_treeClusters.py --tree scaledTree_out4.nwk --matrix resultsOutgroupDataset/CorynebacteriumdiphtheriaeNCTC11397_f0_0taxa_algCOG_e0_E1e-05_C75_POCP.tab --matrix_type POCP --taxonomy Taxonomy.csv --labels resultsOutgroupDataset/tree_labels.list --fragment_limit Gordonia,Williamsia --fusion_limit Gordonia,Nocardia,Tomitella --outdir evaluate4out_limits_POCP
 
 # ---------------------
 # NETWORK ANALYSIS
 # ---------------------
 
-# Execute the networkCorretalion.py for the network analysis of the clusters 
+# Execute the networkCorrelation.py for the network analysis of the clusters 
 #	With the clusters of 3_tValidate
 #		Without genera limits
 #			a. AF matrix
