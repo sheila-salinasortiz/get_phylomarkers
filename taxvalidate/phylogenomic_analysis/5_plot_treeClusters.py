@@ -22,6 +22,7 @@ import matplotlib.pyplot as plt
 from Bio import Phylo
 import matplotlib.colors as mcolors
 import re
+import os
 
 
 # ------------------------------------------------------------
@@ -411,6 +412,7 @@ def main():
     parser.add_argument("--tree_labels", required=True,
                         help="TXT file with species names to use as labels")
     parser.add_argument("--out", default="tree_with_cut.pdf", help="Output pdf file")
+    parser.add_argument("--outdir", default="plot_clusters", help="Output directory for PDFs")
     args = parser.parse_args()
 
     tree = Phylo.read(args.tree, "newick")
@@ -433,14 +435,18 @@ def main():
     h = find_cut_height(tree, leaf_to_cluster)
     print(f"Cut height found: {h}")
 
-    draw_tree(tree, h, leaf_to_cluster, args.out)
-    print(f"Tree saved to {args.out}")
+    # Output directory
+    os.makedirs(args.outdir, exist_ok=True)
 
-    out2 = args.out.replace(".pdf", "_realnames.pdf")
+    out_path = os.path.join(args.outdir, args.out)
+    draw_tree(tree, h, leaf_to_cluster, out_path)
+    print(f"Tree saved to {out_path}")
+
+    out2 = os.path.join(args.outdir, args.out.replace(".pdf", "_realnames.pdf"))
     draw_tree_with_real_labels(tree, h, leaf_to_cluster, leaf_to_realname, out2)
     print(f"Tree with real labels saved to {out2}")
 
-    out3 = args.out.replace(".pdf", "_bootstrap.pdf")
+    out3 = os.path.join(args.outdir, args.out.replace(".pdf", "_bootstrap.pdf"))
     draw_tree_with_bootstrap(tree, h, leaf_to_cluster, out3)
     print(f"Tree with bootstrap saved to {out3}")
 
