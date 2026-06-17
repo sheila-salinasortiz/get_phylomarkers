@@ -349,38 +349,62 @@ def plot_cluster_islands_from_global(cluster_corrs, clusters, genus_list,
     total_genomes = len([g for g in clusters if clusters[g] != -1])
     total_clusters = len([cid for cid, mat in cluster_corrs.items() if not mat.empty])
 
-    NODE_SIZE = max(40, 140 - total_genomes * 0.25)
-    LABEL_SIZE = max(6, 14 - total_genomes * 0.015)
-    EDGE_WIDTH = max(0.3, 1.2 - total_genomes * 0.004)
+    NODE_SIZE = max(40, 140 - total_genomes * 0.25) # shrinks with dataset size
+    LABEL_SIZE = max(6, 14 - total_genomes * 0.015) # shrinks with dataset size
+    EDGE_WIDTH = max(0.3, 1.2 - total_genomes * 0.004)  # thinner for large datasets
 
+    # Horizontal spacing grows with number of clusters
     CLUSTER_SPACING = 7 + np.log10(max(3, total_clusters)) * 8
 
+    # Layout expansion grows with cluster size
     def scale_for_cluster(n):
         return 2.2 + np.log10(max(3, n)) * 3.0
 
-    fig, ax = plt.subplots(figsize=(18, 8))
+    fig, ax = plt.subplots(figsize=(20, 14))
 
     genus_to_color = get_genus_color_map(genus_list)
     unique_genera = sorted(set(genus_list))
+
+    # - Each cluster has its own internal correlation structure.
+    # - A global layout would mix clusters and destroy interpretability.
+    # - Independent FR layouts preserve the internal topology of each cluster.
+    # - Horizontal offsets ensure clusters do not overlap visually.
 
     x_offset = 0.0
 
     for cid, corr_mat in cluster_corrs.items():
 
+        # Skip empty clusters and singletons
         if corr_mat.empty or corr_mat.shape[0] < 2:
             continue
 
         members = corr_mat.index.tolist()
         n_members = len(members)
 
+        # Extract valid correlation values
         vals = corr_mat.values.flatten()
         vals = vals[~np.isnan(vals)]
         vals = vals[vals < 1.0]
         if len(vals) == 0:
             continue
 
+        # ============================================================
+        # THRESHOLD SELECTION: percentile 60
+        #
+        # Why percentile 60?
+        # - AAI/AF/ML-based Pearson correlations tend to be low and tightly distributed.
+        # - μ + σ is often too strict and leaves clusters without edges.
+        # - Percentile 75 is also too strict for these data.
+        # - Percentile 60 captures the "upper core" of correlations within each cluster.
+        # - It is robust, automatic, and biologically meaningful:
+        #   it connects genomes that share the strongest similarity patterns
+        #   relative to their own cluster distribution.
+        # - Works consistently across clusters with different variability.
+        # ============================================================
+
         threshold = np.nanpercentile(vals, percentile)
 
+        # Build edges above threshold
         edges = []
         for i in members:
             for j in members:
@@ -389,6 +413,7 @@ def plot_cluster_islands_from_global(cluster_corrs, clusters, genus_list,
                     if not np.isnan(c) and c >= threshold:
                         edges.append((members.index(i), members.index(j)))
 
+        # Build graph for this cluster
         g = ig.Graph()
         g.add_vertices(n_members)
         g.add_edges(edges)
@@ -398,8 +423,8 @@ def plot_cluster_islands_from_global(cluster_corrs, clusters, genus_list,
         ys_raw = np.array([layout[i][1] for i in range(n_members)])
         ys_norm = (ys_raw - ys_raw.min()) / (ys_raw.max() - ys_raw.min() + 1e-9)
 
-        VERTICAL_SCALE = 5.0
-        VERTICAL_SPACING = 7.0
+        VERTICAL_SCALE = 5.0          # height of each island
+        VERTICAL_SPACING = 7.0        # distance between islands
 
         ys = ys_norm * VERTICAL_SCALE + (cid * VERTICAL_SPACING)
 
@@ -516,7 +541,6 @@ def main():
         f"{OUTPUT_DIR}/mean_{matrix_name}_plot.pdf",
         matrix_name
     )
-
 
     # 2) Global Graphia-style correlation
     corr_global = graphia_style_correlation(matrix)
