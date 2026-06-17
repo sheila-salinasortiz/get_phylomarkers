@@ -22,7 +22,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from Bio import Phylo
 import re
-
+import sys
 
 # ---------------------------------------------------------
 # Logging helper
@@ -392,6 +392,10 @@ def main():
     os.makedirs(args.outdir, exist_ok=True)
     logprint, logfile = make_logger(os.path.join(args.outdir, "run.log"))
 
+    logprint("Command executed:")
+    logprint("python", " ".join(sys.argv))
+    logprint("")
+    
     tree = Phylo.read(args.tree, "newick")
 
     # Load matrix
