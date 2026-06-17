@@ -358,7 +358,7 @@ def plot_cluster_islands_from_global(cluster_corrs, clusters, genus_list,
     def scale_for_cluster(n):
         return 2.2 + np.log10(max(3, n)) * 3.0
 
-    fig, ax = plt.subplots(figsize=(22, 14))
+    fig, ax = plt.subplots(figsize=(18, 8))
 
     genus_to_color = get_genus_color_map(genus_list)
     unique_genera = sorted(set(genus_list))
@@ -408,14 +408,14 @@ def plot_cluster_islands_from_global(cluster_corrs, clusters, genus_list,
 
         for (i, j) in edges:
             ax.plot([xs[i], xs[j]], [ys[i], ys[j]],
-                    color="black", linewidth=EDGE_WIDTH, alpha=0.4)
+                    color="black", linewidth=EDGE_WIDTH, alpha=0.8)
 
         node_colors = [genus_to_color[genus_list[int(m)-1]] for m in members]
         ax.scatter(xs, ys, c=node_colors, s=NODE_SIZE,
                    edgecolors="black", linewidths=0.6)
 
         for idx, gname in enumerate(members):
-            ax.text(xs[idx], ys[idx] + 0.1, gname,
+            ax.text(xs[idx], ys[idx] + 0.2, gname,
                     fontsize=LABEL_SIZE, ha="center", va="bottom")
 
         x_offset += CLUSTER_SPACING
@@ -431,8 +431,8 @@ def plot_cluster_islands_from_global(cluster_corrs, clusters, genus_list,
               title="Genus (color-blind safe)",
               bbox_to_anchor=(1.02, 1),
               loc="upper left",
-              fontsize=8,
-              title_fontsize=10)
+              fontsize=14,
+              title_fontsize=16)
 
     ax.set_title(f"2D Correlation Network (Cluster islands, global corr, percentile {percentile})",
                  fontsize=18)
