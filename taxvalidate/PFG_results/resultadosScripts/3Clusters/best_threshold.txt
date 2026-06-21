@@ -1,0 +1,4 @@
+Genus-mixing threshold selection
+Best threshold: 0.09
+Genus mixing score: 29
+Fragmentations at best t: 9

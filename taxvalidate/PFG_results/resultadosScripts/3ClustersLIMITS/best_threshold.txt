@@ -1,0 +1,5 @@
+Genus-based threshold selection
+Fusion limit: ['Gordonia', 'Nocardia', 'Tomitella']
+Fragmentation limit: ['Gordonia', 'Williamsia']
+Best threshold: 0.18
+Exact match: True

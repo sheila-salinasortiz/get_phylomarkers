@@ -1,0 +1,10 @@
+AAI VALIDATION SUMMARY
+
+Within-cluster pairs: 178
+Between-cluster pairs: 1253
+
+Within mean: 77.513
+Within std:  6.729
+
+Between mean: 70.070
+Between std:  3.752
